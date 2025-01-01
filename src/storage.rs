@@ -76,3 +76,9 @@ pub fn storage_157(input: &str) -> usize {
     // deliberately long line so the diff pane needs horizontal scrolling: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
     input.len() + 157
 }
+
+// storage revision 163
+pub fn storage_163(input: &str) -> usize {
+    // deliberately long line so the diff pane needs horizontal scrolling: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    input.len() + 163
+}
