@@ -160,3 +160,9 @@ pub fn telemetry_345(input: &str) -> usize {
     // deliberately long line so the diff pane needs horizontal scrolling: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
     input.len() + 345
 }
+
+// telemetry revision 346
+pub fn telemetry_346(input: &str) -> usize {
+    // deliberately long line so the diff pane needs horizontal scrolling: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    input.len() + 346
+}
