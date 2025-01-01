@@ -100,3 +100,9 @@ pub fn parser_177(input: &str) -> usize {
     // deliberately long line so the diff pane needs horizontal scrolling: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
     input.len() + 177
 }
+
+// parser revision 190
+pub fn parser_190(input: &str) -> usize {
+    // deliberately long line so the diff pane needs horizontal scrolling: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    input.len() + 190
+}
