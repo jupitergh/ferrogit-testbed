@@ -19,12 +19,23 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 
+# ⚠️ **Commit any edit to THIS script before running it.** The reset below restores every tracked
+# file to `HEAD`, and this script is tracked, so an uncommitted change to it is discarded and the
+# *previous* version is what runs. That reads as the edit having no effect, which cost a debugging
+# cycle when the stash fix below appeared not to work.
 if [ -n "$(git status --porcelain)" ]; then
     echo "resetting to a clean tree first"
     git checkout -- . 2>/dev/null || true
     git clean -fd 2>/dev/null || true
 fi
-while git stash list | grep -q .; do git stash drop >/dev/null; done
+
+# `git stash clear`, and NOT `while git stash list | grep -q .; do git stash drop; done`.
+# Under `set -o pipefail` that loop is a race that silently does nothing: `grep -q` exits on the
+# first line, `git stash list` takes SIGPIPE and exits 141, pipefail promotes that to the
+# pipeline's status, and the `while` condition reads false. It only fires once the list is long
+# enough not to fit the pipe buffer -- so it "works" when tested with three stashes and stops
+# working later, which is how this script first ran twice and left six.
+git stash clear
 
 # Three stashes, so the sidebar's stash section has more than one row and their order is visible.
 # They differ only in the trailing comment, which makes "did the right stash apply?" checkable.
@@ -41,12 +52,19 @@ done
 # in their line ending. A correct diff shows one row, not three.
 printf 'line one\nline two changed\nline three\n' > docs/windows-endings.txt
 
-# An untracked file whose name is the NFD form of a tracked file's NFC name.
+# A modified file whose path is not ASCII, so the file lists, the diff header and the status bar
+# are all exercised on a path that needs real UTF-8 handling rather than byte slicing.
 #
-# macOS normalises filenames to NFD on disk while git stores the bytes it was given, so these two
-# are one file to the filesystem and two paths to git. It is the case that makes "is this path
-# already tracked?" a real question rather than a string comparison.
-printf 'coste: 100%% — café, año, mañana\n' > "$(printf 'docs/a\xcc\x81ccented-n\xcc\x83ame.txt')"
+# ⚠️ This deliberately does NOT recreate the untracked NFD twin of this path that the original
+# working tree carried. On a normalisation-insensitive volume -- APFS and HFS+, so every default
+# macOS checkout -- the NFC and NFD spellings are the SAME FILE: measured here, writing the NFD
+# name landed on the NFC file's inode and `ls` reported one entry, not two. A script that claims
+# to create it silently overwrites the tracked file instead, which is worse than not having the
+# fixture at all, because the tree then looks clean while the fixture is gone. NFC-vs-NFD needs a
+# normalisation-sensitive filesystem (ext4) to exist; that is a Linux-only fixture and belongs in
+# a test that can state its requirement, not in a setup script that cannot check it.
+printf 'coste: 100%% — café, año, mañana, y una línea sin commitear\n' \
+    > "$(printf 'docs/\xc3\xa1ccented-\xc3\xb1ame.txt')"
 
 printf 'scratch notes, untracked\n' > NOTES.md
 
